@@ -1,4 +1,4 @@
-(define-struct dir (name size))
+(define-struct dir (name content))
 
 (define Text (make-dir 'Text (list 'part1 'part2 'part3)))
 (define Code (make-dir 'Code (list 'hang 'draw)))
