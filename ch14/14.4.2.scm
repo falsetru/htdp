@@ -3,7 +3,6 @@
 
 (define (numeric? x)
   (or (number? x)
-      (symbol? x)
       (and (add? x) (numeric? (add-left x)) (numeric? (add-right x)))
       (and (mul? x) (numeric? (mul-left x)) (numeric? (mul-right x)))))
 
@@ -15,9 +14,10 @@
    "Test for 14.4.2"
 
    (check-equal? (numeric? 1) true)
-   (check-equal? (numeric? 'x) true)
+   (check-equal? (numeric? 'x) false)
    (check-equal? (numeric? (make-add 1 2)) true)
    (check-equal? (numeric? (make-mul 1 2)) true)
+   (check-equal? (numeric? (make-mul 1 'x)) false)
    (check-equal? (numeric? empty) false)
    (check-equal? (numeric? false) false)
    (check-equal? (numeric? true) false)
