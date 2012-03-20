@@ -9,7 +9,7 @@
 
 (define (exponent x n)
   (cond [(zero? n) 1]
-        [else (mul (exponent x (sub1 n)) x)]))
+        [else (multiply (exponent x (sub1 n)) x)]))
 
 (require rackunit)
 (require rackunit/text-ui)
