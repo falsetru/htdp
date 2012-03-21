@@ -41,13 +41,13 @@
 (require rackunit)
 (require rackunit/text-ui)
 
-(define 17.7.3-tests
+(define 17.7.4-tests
   (test-suite
-   "Test for 17.7.3"
+   "Test for 17.7.4"
 
    (test-case
     "(+ (add5 5) (mul2 15)) -> 40"
-    
+
     (define a-func-def (make-function 'add5 'x (make-add 'x 5)))
     (define b-func-def (make-function 'mul2 'x (make-mul 'x 2)))
     (define a-expr (make-add (make-call 'add5 5) (make-call 'mul2 15)))
@@ -67,4 +67,4 @@
     )
    ))
 
-(run-tests 17.7.3-tests)
+(run-tests 17.7.4-tests)
