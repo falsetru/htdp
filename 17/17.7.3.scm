@@ -15,7 +15,7 @@
                [else x])]
         [(add? x) (make-add (subst v n (add-left x)) (subst v n (add-right x)))]
         [(mul? x) (make-mul (subst v n (mul-left x)) (subst v n (mul-right x)))]
-        ;[(call? x) (make-call (call-name call) (subst v n (call-arg x)))]
+        ;[(call? x) (make-call (call-name x) (subst v n (call-arg x)))]
         [else (error "not a valid expression")]))
 
 
