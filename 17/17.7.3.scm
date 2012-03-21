@@ -47,8 +47,8 @@
    "Test for 17.7.3"
 
    (test-case
-    "(+ (add5 5) (add5 15)) -> 20
-     (+ (add5 (+ 9 1)) (add5 15)) -> 20
+    "(+ (add5 5) (add5 15)) -> 30
+     (+ (add5 (+ 9 1)) (add5 15)) -> 35
      "
     
     (define a-func-def (make-function 'add5 'x (make-add 'x 5)))
