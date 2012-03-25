@@ -5,13 +5,13 @@
 
 (define (remove-all xs x)
   (cond [(empty? xs) xs]
-        [(= (first xs) x) (rest xs)]
+        [(= (first xs) x) (remove-all (rest xs) x)]
         [else (cons (first xs) (remove-all (rest xs) x))]))
 
 (define (contains-same-numbers xs ys)
   (cond [(empty? xs) (empty? ys)]
         [else (and (contains ys (first xs))
-                   (contains-same-numbers (rest xs)
+                   (contains-same-numbers (remove-all (rest xs) (first xs))
                                           (remove-all ys (first xs))))]))
 
 
@@ -27,6 +27,9 @@
    (check-equal? (contains-same-numbers '(1 2 3) '()) false)
    (check-equal? (contains-same-numbers '(1 2 3) '(1 2 3)) true)
    (check-equal? (contains-same-numbers '(1 2 3) '(3 2 1)) true)
+   (check-equal? (contains-same-numbers '(1 2 3) '(3 3 2 1)) true) ; ?
+   (check-equal? (contains-same-numbers '(1 2 3 3) '(3 2 1)) true) ; ?
+   (check-equal? (contains-same-numbers '(1 2 3) '(4 2 1)) false)
    (check-equal? (contains-same-numbers '(1 2 3) '(4 2 1)) false)
    ))
 
