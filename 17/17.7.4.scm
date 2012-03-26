@@ -20,20 +20,20 @@
 (define (evaluate-call expr defs)
   (cond [(empty? defs) (error "Unresolved function: " (call-name expr))]
         [(symbol=? (call-name expr) (function-name (first defs)))
-         (evaluate-with-one-defs
+         (evaluate-with-defs
            (subst (function-param (first defs))
-                  (evaluate-with-one-defs (call-arg expr) defs)
+                  (evaluate-with-defs (call-arg expr) defs)
                   (function-body (first defs)))
            defs)]
         [else (evaluate-call expr (rest defs))]))
 
-(define (evaluate-with-one-defs expr defs)
+(define (evaluate-with-defs expr defs)
   (cond [(symbol? expr) (error "evaluate-with-one-def: symbol unresolved" expr)]
         [(number? expr) expr]
-        [(add? expr) (+ (evaluate-with-one-defs (add-left  expr) defs)
-                        (evaluate-with-one-defs (add-right expr) defs))]
-        [(mul? expr) (* (evaluate-with-one-defs (mul-left  expr) defs)
-                        (evaluate-with-one-defs (mul-right expr) defs))]
+        [(add? expr) (+ (evaluate-with-defs (add-left  expr) defs)
+                        (evaluate-with-defs (add-right expr) defs))]
+        [(mul? expr) (* (evaluate-with-defs (mul-left  expr) defs)
+                        (evaluate-with-defs (mul-right expr) defs))]
         [(call? expr) (evaluate-call expr defs)]
         [else (error "evaluate-with-one-def: unknown expression: " expr)]))
 
@@ -51,7 +51,7 @@
     (define a-func-def (make-function 'add5 'x (make-add 'x 5)))
     (define b-func-def (make-function 'mul2 'x (make-mul 'x 2)))
     (define a-expr (make-add (make-call 'add5 5) (make-call 'mul2 15)))
-    (check-equal? (evaluate-with-one-defs a-expr (list a-func-def b-func-def)) 40)
+    (check-equal? (evaluate-with-defs a-expr (list a-func-def b-func-def)) 40)
     )
 
    (test-case
@@ -63,7 +63,7 @@
     (define f5 (make-function 'f5 'x 'x))
     (define a-expr (make-call 'f1 9))
 
-    (check-equal? (evaluate-with-one-defs a-expr (list f1 f2 f3 f4 f5)) 9)
+    (check-equal? (evaluate-with-defs a-expr (list f1 f2 f3 f4 f5)) 9)
     )
    ))
 
