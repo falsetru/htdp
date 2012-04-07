@@ -1,3 +1,4 @@
+; natural-f: (X Y -> Y) Y number X -> Y
 (define (natural-f f base n x)
   (cond [(zero? n) base]
         [else (f x
