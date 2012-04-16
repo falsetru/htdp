@@ -1,0 +1,21 @@
+(define (make-d/dx eps)
+  (local ((define (d/dx f)
+            (local ((define (fprime x)
+                      (/ (- (f (+ x eps)) (f (- x eps)))
+                         (* 2 eps))))
+                   fprime)))
+         d/dx))
+
+(define (f x) 
+  (+ (* 1/60 (* x x x))
+     (* -1/10 (* x x))
+     5))
+
+(define (dump x)
+  (display (((make-d/dx 2) f) x)) (newline)
+  (display (((make-d/dx 1) f) x)) (newline)
+  (display (((make-d/dx .5) f) x)) (newline))
+
+(dump 4)
+(dump 2)
+(dump 0)
