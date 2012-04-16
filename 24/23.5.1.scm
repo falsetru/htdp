@@ -1,0 +1,11 @@
+(define (y1 x) (+ x 4))
+(define (y2 x) (- 4 x))
+(define (y3 x) (+ x 10))
+(define (y4 x) (- 10 x))
+(define (y5 x) 12)
+
+(graph-line y1 'black)
+(graph-line y2 'blue)
+(graph-line y3 'red)
+(graph-line y4 'yellow)
+(graph-line y5 'violet)
