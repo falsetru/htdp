@@ -9,10 +9,9 @@
     (check-equal? (build-list 4 add1) '(1 2 3 4)))
 
    (test-case "2."
-    (define (prepend0 n)
-      (cond [(zero? n) (list 1)]
-            [else (cons 0 (prepend0 (sub1 n)))]))
-    (check-equal? (build-list 4 prepend0) (list '(1) '(0 1) '(0 0 1) '(0 0 0 1))))
+    (define (reciprocal-10 n)
+      (exact->inexact (expt (/ 1 10) (add1 n))))
+    (check-equal? (build-list 4 reciprocal-10) (list .1 .01 .001 .0001)))
 
    (test-case "3. evens"
     (define (evens n)
