@@ -17,10 +17,11 @@
           (define b (second eqs))
           (define c (third eqs))
           (define b2 (substract a b))
-          (define c2 (substract a c))
-          (define c3 (substract c2 b2)))
-         (cond [(zero? (first b2)) (list a c2 (rest b2))]
-               [else (list a b2 c3)])))
+          (define c2 (substract a c)))
+         (cond [(zero? (first b2))
+                (cond [(zero? (first c2)) (error "No solution")]
+                      [else (list a c2 (rest b2))])]
+               [else (list a b2 (substract c2 b2))])))
 
 (require rackunit)
 (require rackunit/text-ui)
@@ -42,6 +43,13 @@
                  '((2 3  3   8)
                    ( -8 -4 -12)
                    (    -5  -5)))
+
+   (check-exn exn?
+              (lambda ()
+                (triangulate '((2 2 2 6)
+                               (2 2 4 8)
+                               (2 2 1 2)))
+                ))
    ))
 
 (exit (run-tests triangulate-revised-tests))
