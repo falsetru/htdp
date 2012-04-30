@@ -1,6 +1,7 @@
 (define (lr-vector-sum v)
-  (local ((define (vector-sum-aux i)
-            (cond [(= i (vector-length v)) 0]
+  (local ((define len (vector-length v))
+          (define (vector-sum-aux i)
+            (cond [(= i len) 0]
                   [else (+ (vector-ref v i)
                            (vector-sum-aux (add1 i)))])))
          (vector-sum-aux 0)))
