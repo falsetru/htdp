@@ -29,12 +29,12 @@
 (require rackunit)
 (require rackunit/text-ui)
 
-(define foo-tests
+(define route-exists2?-tests
   (test-suite
-   "Test for foo"
+   "Test for route-exists2?"
 
    (check-equal? (route-exists2? 'A 'C SimpleG) true)
    (check-equal? (route-exists2? 'C 'D SimpleG) false)
    ))
 
-(exit (run-tests foo-tests))
+(exit (run-tests route-exists2?-tests))
