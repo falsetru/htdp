@@ -65,17 +65,11 @@
 (define (filter-final-states states)
   (filter final-state? states))
 
-(define (filter-out-seen states seen)
-  (filter (lambda (s) (false? (memq s seen))) states))
-
-(define (mc-solvable?-acc states seen)
-  (local ((define ss (filter-out-seen (filter-valid-states states) seen)))
+(define (mc-solvable? states)
+  (local ((define ss (filter-valid-states states)))
          (cond [(empty? ss) false]
                [(cons? (filter-final-states ss)) true]
-               [else (mc-solvable?-acc (next-states/all ss) (append states ss))])))
-
-(define (mc-solvable? states)
-  (mc-solvable?-acc states empty))
+               [else (mc-solvable? (next-states/all ss))])))
 
 (require rackunit)
 (require rackunit/text-ui)
