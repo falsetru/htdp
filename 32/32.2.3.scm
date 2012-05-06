@@ -17,7 +17,7 @@
 
 (define (next-state initial boat-load)
   (local ((define left-delta
-            (cond [state-boat-on-left (inv-boat-load boat-load)]
+            (cond [(state-boat-on-left initial) (inv-boat-load boat-load)]
                   [else boat-load]))
           (define right-delta (inv-boat-load left-delta)))
          (make-state (apply-boat-load (state-left initial) left-delta)
@@ -61,6 +61,18 @@
                     (make-state (make-side 2 2) false (make-side 1 1))
                     (make-state (make-side 2 1) false (make-side 1 2))
                     (make-state (make-side 1 2) false (make-side 2 1))
+                    )))
+
+   (test-case "next-states"
+    (check-equal? (next-states (make-state (make-side 2 2)
+                                          false
+                                          (make-side 1 1)))
+                  (list
+                    (make-state (make-side 2 3) true (make-side 1 0))
+                    (make-state (make-side 2 4) true (make-side 1 -1))
+                    (make-state (make-side 3 2) true (make-side 0 1))
+                    (make-state (make-side 3 3) true (make-side 0 0))
+                    (make-state (make-side 4 2) true (make-side -1 1))
                     )))
 
    (test-case "next-states/all"

@@ -11,6 +11,9 @@
           MC)
        (false? (state-boat-on-left state))))
 
+(define (filter-final-states states)
+  (filter final-state? states))
+
 (require rackunit)
 (require rackunit/text-ui)
 

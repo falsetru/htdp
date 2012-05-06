@@ -2,7 +2,8 @@
 (define-struct side (m c) #:transparent)  ; m, c: number
 
 (define (valid-side? side)
-  (>= (side-m side) (side-c side) 0))
+  (or (= (side-m side) 0)
+      (>= (side-m side) (side-c side) 0)))
 
 (define (valid-state? state)
   (and (valid-side? (state-left state))
@@ -39,7 +40,7 @@
     (check-equal?
       (valid-state?
         (make-state (make-side 3 1) false (make-side 0 2)))
-      false)
+      true)
     )
 
    (test-case "filter-valid-states"
@@ -50,7 +51,8 @@
           (make-state (make-side 1 2) false (make-side 2 1))
           (make-state (make-side 3 1) false (make-side 0 2))))
       (list
-        (make-state (make-side 2 2) false (make-side 1 1)))))
+        (make-state (make-side 2 2) false (make-side 1 1))
+        (make-state (make-side 3 1) false (make-side 0 2)))))
    ))
 
 (exit (run-tests valid-state-tests))
