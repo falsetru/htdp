@@ -66,7 +66,12 @@
    (test-case "enabled?"
      (check-equal? (enabled? example-board '(0 0)) true)
      (check-equal? (enabled? example-board '(1 1)) false)
-     (check-equal? (enabled? example-board '(2 0)) true))
+     (check-equal? (enabled? example-board '(2 0)) true)
+     (check-equal? (enabled? '#(#(#t)
+                                #(#f #f)
+                                #(#f #f #t)
+                                #(#f #f #f #f)) '(0 0)) false)
+     )
 
    (test-case "toggle-board toggle-board/list"
     (check-equal? 
