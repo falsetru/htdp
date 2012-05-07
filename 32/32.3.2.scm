@@ -27,18 +27,20 @@
         [else (toggle-board/list (toggle-board board (first ps)) (rest ps))]))
 
 (define (enabled?-pos board pos)
-  (local ((define (visit unvisited)
-            (cond [(empty? unvisited) false]
-                  [else
-                    (local ((define p1 (pos+ pos (first (first unvisited))))
-                            (define p2 (pos+ pos (second (first unvisited)))))
-                           (cond [(or (and (valid-pos? board p1)
-                                           (valid-pos? board p2)
-                                           (peg? board p1)
-                                           (hole? board p2)))
-                                  (list pos p1 p2)]
-                                 [else (visit (rest unvisited))]))])))
-         (visit directions)))
+  (if (hole? board pos)
+    false
+    (local ((define (visit unvisited)
+              (cond [(empty? unvisited) false]
+                    [else
+                      (local ((define p1 (pos+ pos (first (first unvisited))))
+                              (define p2 (pos+ pos (second (first unvisited)))))
+                             (cond [(or (and (valid-pos? board p1)
+                                             (valid-pos? board p2)
+                                             (peg? board p1)
+                                             (hole? board p2)))
+                                    (list pos p1 p2)]
+                                   [else (visit (rest unvisited))]))])))
+           (visit directions))))
 
 (define (enabled? board pos) (not (false? (enabled?-pos board pos))))
 
