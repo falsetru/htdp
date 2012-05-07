@@ -1,18 +1,19 @@
-(define-struct board (n rows))
-; n: number
-; rows: (vectorof (vectorof hole))
-; hole: bool (true: hole, false: peg)
+#lang racket
+(provide
+  example-board)
 
-(define-struct move (from to))
-; from, to: position
-; position: (listof 2 numbers)
+; board is (vectorof (vectorof hole))
+; hole is bool (true: hole, false: peg)
+
+; move is (listof 3 pos)
+;          start-position, mid-point end-position
+; pos is (listof 2 numbers)
 
 
 (define example-board
-  (make-board 4 '#('#(#f)
-                   '#(#f #f)
-                   '#(#f #f #t)
-                   '#(#f #f #f #f))))
+  '#(#(#f)
+     #(#f #f)
+     #(#f #f #t)
+     #(#f #f #f #f)))
 
-(define example-move
-  (make-move '(0 0) '(2 2)))
+(define example-move '((0 0) (1 1) (2 2)))
