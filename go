@@ -1,3 +1,3 @@
 #!/bin/sh
 
-c scm,rkt racket -f {}
+c scm,rkt racket {}
