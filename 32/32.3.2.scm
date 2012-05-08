@@ -1,6 +1,12 @@
 #lang racket
 
 (require "32.3.1.scm")
+(provide
+  example-board
+  peg?
+  hole?
+  enabled?-pos
+  toggle-board/list)
 
 (define neighbors '((0 1) (0 -1) (1 0) (1 1) (-1 -1) (-1 0)))
 (define moves     '((0 2) (0 -2) (2 0) (2 2) (-2 -2) (-2 0)))
@@ -105,4 +111,4 @@
 
    ))
 
-(exit (run-tests enabled?-next-configuration-tests))
+(run-tests enabled?-next-configuration-tests)
