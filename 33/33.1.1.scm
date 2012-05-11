@@ -2,6 +2,7 @@
 (provide
   (struct-out inex)
   create-inex
+  inex-adjust
   )
 
 
@@ -72,4 +73,4 @@
                  (create-inex 10 +1 99))
    ))
 
-(exit (run-tests inex+-tests))
+(run-tests inex+-tests)
