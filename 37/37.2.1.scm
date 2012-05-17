@@ -1,5 +1,8 @@
 #lang racket
 
+(provide
+  make-status-word)
+
 (define (make-status-word word)
   (map (lambda (c) '_) word))
 
@@ -13,4 +16,4 @@
    (check-equal? (make-status-word '(h e l l o ))'(_ _ _ _ _))
    ))
 
-(exit (run-tests make-status-word-tests))
+(run-tests make-status-word-tests)
