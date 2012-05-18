@@ -79,8 +79,9 @@ var startComet = function() {
     sendRequest(
         "/comet",
         function(req) {
-            document.body.appendChild(document.createTextNode(req.responseText));
-            document.body.appendChild(document.createElement("br"));
+            var li = document.createElement("li");
+            li.innerText = req.responseText;
+            document.getElementById('messages').appendChild(li);
             setTimeout(startComet, 0);
         },
         "comet=t"
@@ -91,14 +92,23 @@ var whenLoaded = function() {
     document.getElementById("name").focus();
     setTimeout(startComet, 0);
 };
-
 </script>
+
+<style>
+#chat { position: absolute; bottom: 0; }
+ul { list-style: none; }
+</style>
+
+
 </head>
 <body onLoad="whenLoaded()">
-    <div>
-        <input type="text" id="name" value="nobody" size="5" />
-        <input type="text" id="msg" onkeypress="sendmsg2(event)" />
-        <button id="btn" onclick="sendmsg()">Send</button>
+    <div id="chat">
+        <ul id="messages"></ul>
+        <div>
+            <input type="text" id="name" value="nobody" size="5" />
+            <input type="text" id="msg" onkeypress="sendmsg2(event)" />
+            <button id="btn" onclick="sendmsg()">Send</button>
+        </div>
     </div>
 </body>
 </html>
