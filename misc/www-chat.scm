@@ -5,7 +5,8 @@
 (require web-server/servlet-env
          web-server/http/bindings
          web-server/http/response-structs
-         racket/file)
+         racket/file
+         racket/runtime-path)
 
 (define channels empty)
 
@@ -36,9 +37,8 @@
                       (list #"" (string->bytes/utf-8 (format "~s" v))))])))
 
 
-(define-values (parent-dir filename be-dir?)
-               (split-path (find-system-path 'run-file)))
-(define html-file-path (build-path parent-dir "www-chat.html"))
+(define-runtime-path html-file-path "www-chat.html")
+
 (define (default-page)
   (format (file->string html-file-path)
    *alarm-timeout*))
