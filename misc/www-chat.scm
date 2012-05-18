@@ -34,7 +34,7 @@
                       (current-seconds)
                       #"text/plain; charset=utf-8"
                       empty
-                      (list #"" (string->bytes/utf-8 (format "~s" v))))])))
+                      (list #"" (string->bytes/utf-8 v)))])))
 
 
 (define-runtime-path html-file-path "www-chat.html")
