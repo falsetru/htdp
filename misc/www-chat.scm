@@ -8,22 +8,6 @@
 
 (define channels empty)
 
-(void
- (thread (lambda ()
-           (define (start req)
-             (cond [(exists-binding? 'comet (request-bindings req))
-                    (handle-comet req)]
-                   [(exists-binding? 'msg (request-bindings req))
-                    (handle-msg req)]
-                   [else
-                    (handle-default req)]))
-           (serve/servlet start
-                          #:servlet-path "/comet"
-                          #:banner? #f
-                          #:launch-browser? #t
-                          #:port 8080))))
-
-
 ;; How long will we wait until we ask the client to try again?
 ;; 30 second timeout for the moment.
 (define *alarm-timeout* 30000)
@@ -187,3 +171,16 @@ EOF
      (channel-put ch v))
    channels)
   (set! channels empty))
+
+(define (start req)
+  (cond [(exists-binding? 'comet (request-bindings req))
+         (handle-comet req)]
+        [(exists-binding? 'msg (request-bindings req))
+         (handle-msg req)]
+        [else
+         (handle-default req)]))
+(serve/servlet start
+               #:servlet-path "/comet"
+               #:banner? #f
+               #:launch-browser? #t
+               #:port 8080)
