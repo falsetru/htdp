@@ -42,11 +42,11 @@
                       (current-seconds)
                       #"text/plain; charset=utf-8"
                       empty
-                      (list (string->bytes/utf-8 v)))])))
+                      (list v))])))
 
 
 (define-runtime-path html-file-path "www-chat.html")
-(define (default-page) (file->string html-file-path))
+(define (default-page) (file->bytes html-file-path))
 
 ;; handle-default: request -> response
 (define (handle-default req)
@@ -54,12 +54,13 @@
                  (current-seconds)
                  TEXT/HTML-MIME-TYPE
                  empty
-                 (list (string->bytes/utf-8 (default-page)))))
+                 (list (default-page))))
 
 ;; handle-msg: request -> response
 (define (handle-msg req)
   (broadcast
-   (extract-binding/single 'msg (request-bindings req)))
+   (string->bytes/utf-8
+    (extract-binding/single 'msg (request-bindings req))))
   (response/full 200 #"Okay"
                  (current-seconds)
                  TEXT/HTML-MIME-TYPE
