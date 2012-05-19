@@ -5,10 +5,46 @@
 (require web-server/servlet-env
          web-server/http/bindings
          web-server/http/response-structs
+         web-server/dispatch/syntax
+         web-server/dispatch/serve
          racket/file
          racket/runtime-path)
 
 (define channels empty)
+
+;; broadcast: any -> void
+;; Sends a message to the client.
+(define (broadcast v)
+  (for-each
+   (lambda (ch)
+     (channel-put ch v))
+   channels)
+  (set! channels empty))
+
+
+(define-runtime-path html-file-path "www-chat.html")
+
+(define (default-page)
+  (format (file->string html-file-path)
+          *alarm-timeout*))
+
+;; handle-default: request -> response
+(define (handle-default req)
+  (response/full 200 #"Okay"
+                 (current-seconds)
+                 TEXT/HTML-MIME-TYPE
+                 empty
+                 (list #"" (string->bytes/utf-8 (default-page)))))
+
+;; handle-msg: request -> response
+(define (handle-msg req)
+  (broadcast
+   (extract-binding/single 'msg (request-bindings req)))
+  (response/full 200 #"Okay"
+                 (current-seconds)
+                 TEXT/HTML-MIME-TYPE
+                 empty
+                 (list #"" #"sent")))
 
 ;; How long will we wait until we ask the client to try again?
 ;; 30 second timeout for the moment.
@@ -37,49 +73,14 @@
                       (list #"" (string->bytes/utf-8 v)))])))
 
 
-(define-runtime-path html-file-path "www-chat.html")
 
-(define (default-page)
-  (format (file->string html-file-path)
-          *alarm-timeout*))
+(define-values (start url)
+  (dispatch-rules
+   [("chat") handle-default]
+   [("wait") handle-comet]
+   [("msg") handle-msg]))
 
-;; handle-default: request -> response
-(define (handle-default req)
-  (response/full 200 #"Okay"
-                 (current-seconds)
-                 TEXT/HTML-MIME-TYPE
-                 empty
-                 (list #"" (string->bytes/utf-8 (default-page)))))
-
-;; handle-msg: request -> response
-(define (handle-msg req)
-  (broadcast
-   (extract-binding/single 'msg (request-bindings req)))
-  (response/full 200 #"Okay"
-                 (current-seconds)
-                 TEXT/HTML-MIME-TYPE
-                 empty
-                 (list #"" #"sent")))
-
-
-;; broadcast: any -> void
-;; Sends a message to the client.
-(define (broadcast v)
-  (for-each
-   (lambda (ch)
-     (channel-put ch v))
-   channels)
-  (set! channels empty))
-
-(define (start req)
-  (cond [(exists-binding? 'comet (request-bindings req))
-         (handle-comet req)]
-        [(exists-binding? 'msg (request-bindings req))
-         (handle-msg req)]
-        [else
-         (handle-default req)]))
 (serve/servlet start
-               #:servlet-path "/chat"
-               #:banner? #f
-               #:launch-browser? #t
+               #:servlet-path "/"
+               #:servlet-regexp #rx""
                #:port 8080)
