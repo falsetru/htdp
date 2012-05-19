@@ -53,7 +53,7 @@ var startComet = function() {
     // XMLHttpRequest wrapper.  Transparently restarts the request
     // if a timeout occurs.
     var sendRequest = function(url,callback,postData) {
-        var req = createXMLHTTPObject(), method, TIMEOUT = ~s;
+        var req = createXMLHTTPObject(), method;
         if (!req) return;
         method = (postData) ? "POST" : "GET";
         req.open(method,url,true);

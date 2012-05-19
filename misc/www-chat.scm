@@ -38,10 +38,7 @@
 
 
 (define-runtime-path html-file-path "www-chat.html")
-
-(define (default-page)
-  (format (file->string html-file-path)
-          *alarm-timeout*))
+(define (default-page) (file->string html-file-path))
 
 ;; handle-default: request -> response
 (define (handle-default req)
