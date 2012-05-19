@@ -9,6 +9,14 @@
          racket/runtime-path)
 
 (define channels empty)
+;; broadcast: any -> void
+;; Sends a message to the client.
+(define (broadcast v)
+  (for-each
+   (lambda (ch)
+     (channel-put ch v))
+   channels)
+  (set! channels empty))
 
 ;; How long will we wait until we ask the client to try again?
 ;; 30 second timeout for the moment.
@@ -17,9 +25,9 @@
 ;; handle-comet: request -> response
 (define (handle-comet req)
   (let* ([ch (make-channel)]
+         [not_used (set! channels (cons ch channels))]
          [an-alarm (alarm-evt (+ (current-inexact-milliseconds)
                                  *alarm-timeout*))]
-         [not_used (set! channels (cons ch channels))]
          [v (sync ch an-alarm)])
     (cond
       [(eq? v an-alarm)
@@ -28,13 +36,13 @@
                       (current-seconds)
                       #"text/plain; charset=utf-8"
                       empty
-                      (list #"" #""))]
+                      (list #""))]
       [else
        (response/full 200 #"Okay"
                       (current-seconds)
                       #"text/plain; charset=utf-8"
                       empty
-                      (list #"" (string->bytes/utf-8 v)))])))
+                      (list (string->bytes/utf-8 v)))])))
 
 
 (define-runtime-path html-file-path "www-chat.html")
@@ -46,7 +54,7 @@
                  (current-seconds)
                  TEXT/HTML-MIME-TYPE
                  empty
-                 (list #"" (string->bytes/utf-8 (default-page)))))
+                 (list (string->bytes/utf-8 (default-page)))))
 
 ;; handle-msg: request -> response
 (define (handle-msg req)
@@ -56,17 +64,8 @@
                  (current-seconds)
                  TEXT/HTML-MIME-TYPE
                  empty
-                 (list #"" #"sent")))
+                 (list #"sent")))
 
-
-;; broadcast: any -> void
-;; Sends a message to the client.
-(define (broadcast v)
-  (for-each
-   (lambda (ch)
-     (channel-put ch v))
-   channels)
-  (set! channels empty))
 
 (define (start req)
   (cond [(exists-binding? 'comet (request-bindings req))
