@@ -41,7 +41,7 @@
 
 (define (default-page)
   (format (file->string html-file-path)
-   *alarm-timeout*))
+          *alarm-timeout*))
 
 ;; handle-default: request -> response
 (define (handle-default req)
@@ -54,7 +54,7 @@
 ;; handle-msg: request -> response
 (define (handle-msg req)
   (broadcast
-    (extract-binding/single 'msg (request-bindings req)))
+   (extract-binding/single 'msg (request-bindings req)))
   (response/full 200 #"Okay"
                  (current-seconds)
                  TEXT/HTML-MIME-TYPE
@@ -79,7 +79,7 @@
         [else
          (handle-default req)]))
 (serve/servlet start
-               #:servlet-path "/comet"
+               #:servlet-path "/chat"
                #:banner? #f
                #:launch-browser? #t
                #:port 8080)
