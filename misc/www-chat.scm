@@ -79,4 +79,5 @@
                #:servlet-path "/chat"
                #:banner? #f
                #:launch-browser? #t
+               #:listen-ip #f
                #:port 8080)
