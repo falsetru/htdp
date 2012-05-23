@@ -1,6 +1,12 @@
+#lang racket
+
+(provide
+  (struct-out building)
+  )
+
 (define-struct building (name pic near-buildings))
-; name: string
+; name: symbol
 ; pic: picture
-; near-buildings: (listof string)
+; near-buildings: (listof symbol)
 
 ; campus: (listof building)
