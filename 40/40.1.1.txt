@@ -1,0 +1,2 @@
+- posn?
+- f-make-posn 에서 정의되지 않았고, service-manager 에서 'posn? 메시지에 대해서는 에러를 출력하기때문
