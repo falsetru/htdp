@@ -1,5 +1,10 @@
 #lang racket
 
+(provide
+  (struct-out animal)
+  create-animal
+  feed-animal)
+
 (define-struct animal (name breakfast dinner) #:transparent #:mutable)
 (define (create-animal name) (make-animal name false false))
 (define (feed-animal animal time)
@@ -23,4 +28,4 @@
     )
    ))
 
-(exit (run-tests feed-animal-tests))
+(run-tests feed-animal-tests)
