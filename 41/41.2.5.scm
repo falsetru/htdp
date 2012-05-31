@@ -1,5 +1,13 @@
 #lang racket
 
+(provide
+  (struct-out posn)
+  (struct-out square)
+  (struct-out circle)
+  move-square!
+  move-circle!
+  )
+
 (define-struct posn (x y) #:mutable #:transparent)
 (define-struct square (nw length) #:mutable #:transparent)
 (define-struct circle (center radius) #:mutable #:transparent)
@@ -45,4 +53,4 @@
     )
    ))
 
-(exit (run-tests move-square!-tests))
+(run-tests move-square!-tests)
