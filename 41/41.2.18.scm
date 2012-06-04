@@ -1,5 +1,9 @@
 #lang racket
 
+(provide
+  count-vowels
+  count-a-vowel)
+
 (define (count-vowels chars)
   (cond
     [(empty? chars) (vector 0 0 0 0 0)]
@@ -30,4 +34,4 @@
    (check-equal? (count-vowels '(a a i u u)) '#(2 0 1 0 2))
    ))
 
-(exit (run-tests count-vowels-tests))
+(run-tests count-vowels-tests)
