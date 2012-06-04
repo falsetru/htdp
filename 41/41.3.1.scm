@@ -1,6 +1,16 @@
 #lang racket
 
+(provide
+  (struct-out hand)
+  SPADES
+  HEARTS
+  DIAMONDS
+  CLUBS
+  create-hand
+  add-at-end!)
+
 (define-struct hand (rank suit next) #:mutable #:transparent)
+
 (define SPADES 's)
 (define HEARTS 'h)
 (define DIAMONDS 'd)
@@ -17,9 +27,9 @@
 (require rackunit)
 (require rackunit/text-ui)
 
-(define add-to-end!-tests
+(define add-at-end!-tests
   (test-suite
-   "Test for add-to-end!"
+   "Test for add-at-end!"
 
    (test-case
      ""
@@ -35,4 +45,4 @@
      )
    ))
 
-(exit (run-tests add-to-end!-tests))
+(run-tests add-at-end!-tests)
