@@ -1,5 +1,16 @@
 #lang racket
 
+(provide
+  (struct-out child)
+  Carl
+  Bettina
+  Adam
+  Dave
+  Eva
+  Fred
+  Gustav
+  )
+
 (define-struct child (name social father mother) #:mutable)
 
 ;; Oldest Generation:
@@ -59,4 +70,4 @@
     )
    ))
 
-(exit (run-tests add-ftn!-tests))
+(run-tests add-ftn!-tests)
