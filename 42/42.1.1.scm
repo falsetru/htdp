@@ -26,6 +26,6 @@
     )
    ))
 
-(exit (run-tests equal-child?-tests))
+(run-tests equal-child?-tests)
 
 ; 최대추상실행시간 (O(min (number-of-nodes ft1) (number-of-nodes ft2)))
