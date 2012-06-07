@@ -26,8 +26,8 @@
   (local ((define pivot-position left)
           (define the-pivot (vector-ref V left))
           (define (partition-aux left right)
-            (local ((define new-right (find-new-right V the-pivot left right))
-                    (define new-left (find-new-left V the-pivot left right)))
+            (local ((define new-right (find-new-right left right))
+                    (define new-left (find-new-left left right)))
               (cond
                 [(>= new-left new-right)
                  (begin
@@ -36,26 +36,23 @@
                 [else ; (< new-left new-right)
                  (begin
                    (swap V new-left new-right)
-                   (partition-aux new-left new-right))]))))
+                   (partition-aux new-left new-right))])))
+          
+          (define (find-new-right left right)
+            (cond
+              [(= right left) right]
+              [else (cond
+                      [(< (vector-ref V right) the-pivot) right]
+                      [else (find-new-right left (sub1 right))])]))
+
+          (define (find-new-left left right)
+            (cond
+              [(= right left) right]
+              [else (cond
+                      [(> (vector-ref V left) the-pivot) left]
+                      [else (find-new-left (add1 left) right)])]))
+          )
     (partition-aux left right)))
-
-;; find-new-right : (vectorof number) number N N [>= left]  ->  N
-;; to determine an index i between left and right (inclusive)
-;; such that (< (vector-ref V i) the-pivot) holds
-;; structural recursion: see text
-(define (find-new-right V the-pivot left right)
-  (cond
-    [(= right left) right]
-    [else (cond
-	    [(< (vector-ref V right) the-pivot) right]
-	    [else (find-new-right V the-pivot left (sub1 right))])]))
-
-(define (find-new-left V the-pivot left right)
-  (cond
-    [(= right left) right]
-    [else (cond
-	    [(> (vector-ref V left) the-pivot) left]
-	    [else (find-new-left V the-pivot (add1 left) right)])]))
 
 
 (define (swap V i j)
