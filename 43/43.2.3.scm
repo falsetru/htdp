@@ -11,13 +11,13 @@
 (require rackunit)
 (require rackunit/text-ui)
 
-(define how-many-ancestors-tests
+(define how-many-descendants-tests
   (test-suite
-   "Test for how-many-ancestors"
+   "Test for how-many-descendants"
 
    (check-equal? (how-many-descendants Gustav) 1)
    (check-equal? (how-many-descendants Carl) 5)
    (check-equal? (how-many-descendants Eva) 2)
    ))
 
-(exit (run-tests how-many-ancestors-tests))
+(exit (run-tests how-many-descendants-tests))
