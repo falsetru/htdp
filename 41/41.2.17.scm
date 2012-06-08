@@ -1,5 +1,8 @@
 #lang racket
 
+(provide
+  vec-for-all)
+
 ;; vec-for-all : (N X  ->  void) (vectorof X)  ->  void
 ;; effect: to apply f to all indices and values in vec
 ;; equation: 
@@ -34,4 +37,4 @@
     )
    ))
 
-(exit (run-tests vector*!-tests))
+(run-tests vector*!-tests)
