@@ -40,4 +40,4 @@
    (check-equal? (person-mother Gustav) Eva)
    ))
 
-(exit (run-tests add-child!-tests))
+(run-tests add-child!-tests)
