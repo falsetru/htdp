@@ -1,5 +1,16 @@
 #lang racket
 
+(provide
+  (struct-out person)
+  add-child!
+  Carl
+  Bettina
+  Adam
+  Dave
+  Eva
+  Fred
+  Gustav)
+
 (define-struct person (name social father mother children) #:mutable)
 
 (define (add-child! name soc-sec father mother)
