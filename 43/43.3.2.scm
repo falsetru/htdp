@@ -2,6 +2,9 @@
 
 (require "43.3.1.scm")
 
+(provide
+  unplace-queen)
+
 (define (unplace-queen board i j)
   (board-for-all
     (lambda (I J x)
@@ -37,4 +40,4 @@
     )
    ))
 
-(exit (run-tests unplace-queen-tests))
+(run-tests unplace-queen-tests)
