@@ -1,5 +1,16 @@
 #lang racket
 
+(provide
+  (struct-out node)
+  create-node
+  connect-nodes
+  lookup-node
+  eq-node?
+  clear-visited
+
+  the-graph
+  )
+
 (define-struct node (name visited to) #:mutable)
 (define (create-node name)
   (local ((define the-node (make-node name false false)))
@@ -14,6 +25,9 @@
 
 (define eq-node? eq?)
 
+(define (clear-visited sg)
+  (for-each (lambda (node) (set-node-visited! node false)) sg))
+
 (define (route-exists? orig dest sg)
   (local ((define (route-exists?-aux orig dest)
             (cond
@@ -24,8 +38,23 @@
                   (set-node-visited! orig true)
                   (route-exists?-aux (node-to orig) dest))])))
          (begin
-           (for-each (lambda (node) (set-node-visited! node false)) sg)
+           (clear-visited sg)
            (route-exists?-aux orig dest))))
+
+(define the-graph
+  (list (create-node 'A)
+        (create-node 'B)
+        (create-node 'C)
+        (create-node 'D)
+        (create-node 'E)
+        (create-node 'F)))
+
+(begin
+  (connect-nodes 'A 'B the-graph)
+  (connect-nodes 'B 'C the-graph)
+  (connect-nodes 'C 'E the-graph)
+  (connect-nodes 'D 'E the-graph)
+  (connect-nodes 'E 'B the-graph))
 
 
 (require rackunit)
@@ -37,20 +66,6 @@
 
    (test-case
     ""
-    (define the-graph
-      (list (create-node 'A)
-            (create-node 'B)
-            (create-node 'C)
-            (create-node 'D)
-            (create-node 'E)
-            (create-node 'F)))
-    (begin
-      (connect-nodes 'A 'B the-graph)
-      (connect-nodes 'B 'C the-graph)
-      (connect-nodes 'C 'E the-graph)
-      (connect-nodes 'D 'E the-graph)
-      (connect-nodes 'E 'B the-graph))
-
     (check-equal? (route-exists? (lookup-node 'A the-graph)
                                  (lookup-node 'A the-graph)
                                  the-graph)
@@ -70,4 +85,4 @@
     )
    ))
 
-(exit (run-tests route-exists?-tests))
+(run-tests route-exists?-tests)
