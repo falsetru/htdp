@@ -29,24 +29,18 @@
 
 (define (try-placement i j n a-board)
   (cond [(>= i (vector-length a-board)) false]
-        [(>= j (vector-length a-board))
-         (try-placement (add1 i) 0 n a-board)]
-        [(not (equal? (board-ref a-board i j) true))
-         (try-placement i (add1 j) n a-board)]
+        [(>= j (vector-length a-board)) (try-placement (add1 i) 0 n a-board)]
+        [(> (board-ref a-board i j) 0)  (try-placement i (add1 j) n a-board)]
         [else
-          (local ((define (mark ii jj)
-                    (if (or (and (= i ii) (= j jj)) (equal? (board-ref a-board ii jj) '**))
-                      '**
-                      (and (equal? (board-ref a-board ii jj) true)
-                           (not (threatened? (make-posn i j)
-                                             (make-posn ii jj))))))
-                  (define _dummy_ (place-queen a-board i j))
-                  (define a-try (placement (sub1 n) a-board)))
-                 (if (false? a-try)
-                   (begin
-                     (unplace-queen a-board i j)
-                     (try-placement i (add1 j) n a-board))
-                   a-try))]))
+          (begin
+            (place-queen a-board i j)
+            (local ((define a-try (placement (sub1 n) a-board)))
+                   (cond [(false? a-try)
+                          (begin
+                            (unplace-queen a-board i j)
+                            (placement (sub1 n) a-board))]
+                         [else a-try])))]
+          ))
 
 
 
@@ -79,9 +73,9 @@
    (test-case
     "8x8"
     (check-equal? 1 1)
-    (define solution (placement 8 (build-board 8 (lambda (i j) #t))))
+    (define solution (placement 8 (build-board 8 (lambda (i j) 0))))
     (for-each
-      (lambda (x) (check-not-equal? x #t))
+      (lambda (x) (check-not-equal? x 0))
       (foldr append empty
              (map vector->list (vector->list solution))))
     (for-each

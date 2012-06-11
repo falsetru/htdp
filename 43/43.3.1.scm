@@ -20,7 +20,7 @@
                (= j J)
                (= (+ i j) (+ I J))
                (= (- i j) (- I J)))
-           false]
+           (add1 x)]
           [else x]))
     board))
 
@@ -39,13 +39,13 @@
         (lambda (i)
           (build-vector
             3
-            (lambda (j) true)))))
+            (lambda (j) 0)))))
     (place-queen board 0 0)
     (check-equal?
       board
-      '#(#(#f #f #f)
-         #(#f #f #t)
-         #(#f #t #f)))
+      '#(#(1 1 1)
+         #(1 1 0)
+         #(1 0 1)))
     )
    ))
 

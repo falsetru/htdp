@@ -11,7 +11,7 @@
       (cond [(or (= i I)
                  (= j J)
                  (= (+ i j) (+ I J))
-                 (= (- i j) (- I J))) true]
+                 (= (- i j) (- I J))) (sub1 x)]
             [else x]))
     board))
 
@@ -30,13 +30,13 @@
         (lambda (i)
           (build-vector
             3
-            (lambda (j) false)))))
+            (lambda (j) 1)))))
     (unplace-queen board 0 0)
     (check-equal?
       board
-      '#(#(#t #t #t)
-         #(#t #t #f)
-         #(#t #f #t)))
+      '#(#(0 0 0)
+         #(0 0 1)
+         #(0 1 0)))
     )
    ))
 
