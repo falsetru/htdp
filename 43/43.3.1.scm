@@ -1,5 +1,9 @@
 #lang racket
 
+(provide
+  board-for-all
+  place-queen)
+
 (define (board-for-all f board)
   (local ((define N (vector-length board)))
     (for-each (lambda (i)
@@ -45,4 +49,4 @@
     )
    ))
 
-(exit (run-tests place-queen-tests))
+(run-tests place-queen-tests)
