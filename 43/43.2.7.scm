@@ -1,5 +1,13 @@
 #lang racket
 
+(provide
+  (struct-out node)
+  create-node
+  connect-nodes
+  lookup-node
+  symbolic-graph-to-structures
+  )
+
 (define-struct node (name to) #:mutable #:transparent)
 
 (define (create-node name)
@@ -65,4 +73,4 @@
      the-graph)
    ))
 
-(exit (run-tests symbolic-graph-to-structures-tests))
+(run-tests symbolic-graph-to-structures-tests)
