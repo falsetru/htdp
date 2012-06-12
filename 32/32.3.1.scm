@@ -11,9 +11,9 @@
 
 
 (define example-board
-  '#(#(#f)
-     #(#f #f)
-     #(#f #f #t)
-     #(#f #f #f #f)))
+  (vector (vector #f)
+          (vector #f #f)
+          (vector #f #f #t)
+          (vector #f #f #f #f)))
 
 (define example-move '((0 0) (1 1) (2 2)))
