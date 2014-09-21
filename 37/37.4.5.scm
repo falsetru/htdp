@@ -75,6 +75,18 @@
     )
 
    (test-case
+    "previous definition should be ignored."
+
+    (set! definitions empty)
+    (define a-func-def (make-function 'add-blah 'x (make-add 'x 5)))
+    (define b-func-def (make-function 'add-blah 'x (make-add 'x 10)))
+    (add-definition a-func-def)
+    (add-definition b-func-def)
+    (define a-expr (make-call 'add-blah 5))
+    (check-equal? (evaluate a-expr) 15)
+    )
+
+   (test-case
     "f1 call f2. f2 call f3. f3 ...."
     (set! definitions empty)
     (define f1 (make-function 'f1 'x (make-call 'f2 'x)))
