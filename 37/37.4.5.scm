@@ -1,8 +1,16 @@
 #lang racket
 
 (define definitions empty)
-(define (add-definition definition)
-  (set! definitions (cons definition definitions)))
+
+;; Doesn't fulfill the specification:
+;; "If a user adds two (or more) definitions for some function f,
+;; the last addition is the one that matters. The previous ones can be ignored. "
+;(define (add-definition definition)
+ ; (set! definitions (cons definition definitions)))
+
+;; Requires dropping the function definition if already
+;; present, which can be accomplished with the help of
+;; remove.
 
 ; 동일한 함수 정의를 두번 추가할 경우
 ; 나중에 추가된 정의가 리스트의 앞쪽에 위치한다.
