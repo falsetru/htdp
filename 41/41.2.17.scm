@@ -16,11 +16,11 @@
   (cond [(zero? i) (void)]
         [else
           (begin
-            (vector-set! v (sub1 i) (f (vector-ref v (sub1 i))))
+            (vector-set! v (sub1 i) (f (vector-ref v (sub1 i)) (sub1 i)))
             (vec-for-all-aux f v (sub1 i)))]))
 
 (define (vector*! s v)
-  (vec-for-all (lambda (x) (* x s)) v))
+  (vec-for-all (lambda (value index) (* value s)) v))
 
 (require rackunit)
 (require rackunit/text-ui)
